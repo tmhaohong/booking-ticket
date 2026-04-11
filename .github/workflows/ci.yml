@@ -30,6 +30,8 @@ jobs:
 
       - name: Generate Prisma Client
         run: npx prisma generate
+        env:
+          DATABASE_URL: 'postgresql://fake_user:fake_password@localhost:5432/fake_db'
 
       - name: TypeScript Type Check
         run: yarn tsc --noEmit

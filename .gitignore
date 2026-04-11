@@ -50,3 +50,7 @@ node_modules/
 /blob-report/
 /playwright/.cache/
 /playwright/.auth/
+
+yarn.lock
+AGENTS.md
+CLAUDE.md

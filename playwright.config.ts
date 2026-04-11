@@ -75,5 +75,8 @@ export default defineConfig({
     command: 'yarn build && yarn start',
     url: 'http://localhost:3000',
     reuseExistingServer: !process.env.CI,
+    env: {
+      NEXT_PUBLIC_DISABLE_SENTRY: 'true',
+    },
   },
 });

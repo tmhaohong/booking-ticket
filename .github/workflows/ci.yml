@@ -21,17 +21,14 @@ jobs:
 
       - name: Install Dependencies
         run: yarn install
-      
-      - name: Run Biome Check (Format)
-        run: yarn format
 
       - name: Run Biome Check (Lint)
-        run: yarn lint:fix
+        run: yarn lint
 
       - name: Generate Prisma Client
         run: npx prisma generate
         env:
-          DATABASE_URL: 'postgresql://fake_user:fake_password@localhost:5432/fake_db'
+          DATABASE_URL: 'postgresql://fake_user:fake_password@localhost:5435/fake_db'
 
       - name: TypeScript Type Check
         run: yarn tsc --noEmit
@@ -55,7 +52,7 @@ jobs:
           --health-retries 5
 
     env:
-      DATABASE_URL: postgresql://test_user:test_password@localhost:5435/booking_ticket_test
+      DATABASE_URL: postgresql://test_user:test_password@localhost:5432/booking_ticket_test
 
     steps:
       - uses: actions/checkout@v4

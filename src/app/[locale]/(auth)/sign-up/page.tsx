@@ -20,7 +20,7 @@ const COUNTDOWN = 2;
 const SignUpPage = () => {
   const [isPending, startTransition] = useTransition();
   const router = useRouter();
-  const { t } = useT('sign-up')
+  const { t } = useT('sign-up');
 
   const UserSchema = getUserSchema(t);
 
@@ -32,7 +32,7 @@ const SignUpPage = () => {
 
         setTimeout(() => {
           router.push('/sign-in');
-        }, COUNTDOWN*1000);
+        }, COUNTDOWN * 1000);
       } else {
         toast.error(result.message);
       }

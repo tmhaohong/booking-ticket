@@ -12,7 +12,9 @@ const Layout = ({ children }: { children: ReactNode }) => (
         editors now use Lorem Ipsum as their default model text, and a search for 'lorem ipsum' will
         uncover many web sites still in their infancy.
       </p>
-      <span><strong>50k+</strong> fans joined today.</span>
+      <span>
+        <strong>50k+</strong> fans joined today.
+      </span>
     </div>
     <div className="w-1/2">{children}</div>
   </div>

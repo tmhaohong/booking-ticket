@@ -25,8 +25,7 @@ const getUserSchema = (t: Translator) => {
     confirmPassword: string()
       .required(t('error.confirmPassword.required'))
       .oneOf([ref('password')], t('error.confirmPassword.oneOf')),
-    agreement: boolean()
-      .oneOf([true], t('error.agreement.required')),
+    agreement: boolean().oneOf([true], t('error.agreement.required')),
   });
 };
 

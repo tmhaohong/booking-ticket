@@ -26,12 +26,17 @@ const CheckBox = ({ className, name, label, labelRender, ...rest }: CheckBoxProp
       )}
     >
       <input className="peer hidden" type="checkbox" {...register(name)} {...rest} />
-      <Icon className={cn("peer-checked:hidden!",{
-        'text-red-600': error,
-      })} name="check_box_outline_blank" />
+      <Icon
+        className={cn('peer-checked:hidden!', {
+          'text-red-600': error,
+        })}
+        name="check_box_outline_blank"
+      />
       <Icon className="peer-not-checked:hidden!" name="select_check_box" />
       {labelRender ? labelRender : label && <span className="select-none">{label}</span>}
-      {error && <ErrorMessage message={String(error.message)} className='bottom-0 translate-y-full' />}
+      {error && (
+        <ErrorMessage message={String(error.message)} className="bottom-0 translate-y-full" />
+      )}
     </label>
   );
 };

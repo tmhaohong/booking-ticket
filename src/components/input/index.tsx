@@ -38,11 +38,7 @@ const Input = ({
     )}
     {description && <p className="mb-1 font-light text-foreground text-xs">{description}</p>}
     <div className="relative">
-      <Wrapper
-        type={type}
-        name={name}
-        {...rest}
-      />
+      <Wrapper type={type} name={name} {...rest} />
     </div>
   </div>
 );

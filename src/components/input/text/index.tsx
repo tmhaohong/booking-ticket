@@ -19,9 +19,12 @@ const Text = ({ name, type, ...rest }: InputProps) => {
         {...rest}
         {...register(name)}
         autoComplete="off"
-        className={cn("w-full rounded-xl border border-line px-4 py-2 text-base text-text transition-colors duration-500 focus:border-primary focus:outline-none", {
-          'border-red-600': error,
-        })}
+        className={cn(
+          'w-full rounded-xl border border-line px-4 py-2 text-base text-text transition-colors duration-500 focus:border-primary focus:outline-none',
+          {
+            'border-red-600': error,
+          },
+        )}
       />
       {error && (
         <div className="relative">

@@ -1,7 +1,7 @@
-'use client'
+'use client';
 
 import Link from 'next/link';
-import { Trans, useT } from 'next-i18next/client'
+import { Trans, useT } from 'next-i18next/client';
 
 const CustomLabel = () => {
   const { t } = useT('sign-up');
@@ -13,17 +13,9 @@ const CustomLabel = () => {
         t={t}
         components={{
           tos: (
-            <Link
-              href="/termOfService"
-              className="font-semibold text-blue-500 hover:underline"
-            />
+            <Link href="/termOfService" className="font-semibold text-blue-500 hover:underline" />
           ),
-          privacy: (
-            <Link
-              href="/privacy"
-              className="font-semibold text-blue-500 hover:underline"
-            />
-          ),
+          privacy: <Link href="/privacy" className="font-semibold text-blue-500 hover:underline" />,
         }}
       />
     </span>

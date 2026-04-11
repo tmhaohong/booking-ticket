@@ -30,7 +30,7 @@ export default async function RootLayout({
   params: Promise<{ locale: string }>;
 }>) {
   const { locale } = await params;
-  const { i18n } = await getT(locale);
+  const { i18n } = await getT(undefined, { lng: locale });
   const resources = getResources(i18n);
 
   return (

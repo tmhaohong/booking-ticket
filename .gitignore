@@ -51,6 +51,5 @@ node_modules/
 /playwright/.cache/
 /playwright/.auth/
 
-yarn.lock
 AGENTS.md
 CLAUDE.md

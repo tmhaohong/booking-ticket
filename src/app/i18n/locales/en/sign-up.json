@@ -1,0 +1,34 @@
+{
+  "messages": {
+    "success": "Sign up successfully. You will be redirected to the sign in page in {count} seconds"
+  },
+  "error": {
+    "fullName": {
+      "required": "Full name is required",
+      "min": "Full name must be at least 5 characters long",
+      "max": "Full name must be less than 100 characters long",
+      "matches": "Full name cannot contain special characters"
+    },
+    "email": {
+      "required": "Email is required",
+      "email": "Email is invalid"
+    },
+    "phoneNumber": {
+      "test": "Phone number is invalid"
+    },
+    "password": {
+      "required": "Password is required",
+      "min": "Password must be at least 6 characters long",
+      "max": "Password must be less than 20 characters long",
+      "matches": "Password must contain at least one letter and one number"
+    },
+    "confirmPassword": {
+      "required": "Please confirm your password",
+      "oneOf": "Passwords do not match"
+    },
+    "agreement": {
+      "required": "This field is required"
+    }
+  },
+  "termsAndPrivacy": "I agree to the <tos>Terms of Service</tos> and <privacy>Privacy Policy</privacy>."
+}

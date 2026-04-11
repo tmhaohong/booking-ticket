@@ -1,0 +1,12 @@
+{
+  "error": {
+    "email": {
+      "existed": "Email is existed!"
+    },
+    "system": "System error!",
+    "supportCode": "Support code"
+  },
+  "messages": {
+    "success": "Success!"
+  }
+}

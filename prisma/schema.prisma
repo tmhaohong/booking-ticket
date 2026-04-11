@@ -1,0 +1,66 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+model User {
+  id           String   @id @default(uuid())
+  phoneNumber  String?  @unique
+  email        String?  @unique
+  passwordHash String?
+  fullName     String?
+  createdAt    DateTime @default(now())
+  
+  orders       Order[]
+}
+
+model Event {
+  id          String   @id @default(uuid())
+  title       String
+  description String?
+  venue       String
+  startTime   DateTime
+  status      String   @default("UPCOMING")
+  
+  seats       Seat[]
+}
+
+model Seat {
+  id          String   @id @default(uuid())
+  eventId     String
+  seatCode    String
+  price       Decimal  @db.Decimal(10, 2)
+  status      String   @default("AVAILABLE")
+  version     Int      @default(1)
+  
+  event       Event    @relation(fields: [eventId], references: [id])
+  orderItems  OrderItem[]
+
+  @@unique([eventId, seatCode])
+  @@index([eventId, status])   
+}
+
+model Order {
+  id          String   @id @default(uuid())
+  userId      String
+  totalAmount Decimal  @db.Decimal(10, 2)
+  status      String   @default("PENDING")
+  createdAt   DateTime @default(now())
+  expiresAt   DateTime 
+
+  user        User        @relation(fields: [userId], references: [id])
+  items       OrderItem[]
+}
+
+model OrderItem {
+  id      String @id @default(uuid())
+  orderId String
+  seatId  String
+  price   Decimal @db.Decimal(10, 2)
+
+  order   Order  @relation(fields: [orderId], references: [id])
+  seat    Seat   @relation(fields: [seatId], references: [id])
+}

@@ -1,0 +1,33 @@
+{
+  "messages": {
+    "success": "Sign up successfully. You will be redirected to the sign in page in {count} seconds"
+  },
+  "error": {
+    "fullName": {
+      "required": "Họ tên là bắt buộc",
+      "min": "Họ tên phải dài hơn 5 ký tự",
+      "max": "Họ tên phải ngắn hơn 100 ký tự",
+      "matches": "Họ tên không được chứa ký tự đặc biệt"
+    },
+    "email": {
+      "required": "Email là bắt buộc",
+      "email": "Email không đúng định dạng"
+    },
+    "phoneNumber": {
+      "test": "Số điện thoại không hợp lệ"
+    },
+    "password": {
+      "required": "Mật khẩu là bắt buộc",
+      "min": "Mật khẩu phải từ 6 ký tự trở lên",
+      "max": "Mật khẩu tối đa 20 ký tự",
+      "matches": "Mật khẩu phải chứa ít nhất 1 chữ cái và 1 chữ số"
+    },
+    "confirmPassword": {
+      "required": "Vui lòng xác nhận lại mật khẩu",
+      "oneOf": "Mật khẩu xác nhận không khớp"
+    },
+    "agreement": {
+      "required": "Trường này là bắt buộc"
+    }
+  }
+}

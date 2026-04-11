@@ -1,0 +1,71 @@
+name: Booking Ticket CI Pipeline
+
+on:
+  push:
+    branches: [ main, develop ]
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  quality-check:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'npm'
+
+      - name: Install Dependencies
+        run: npm ci
+
+      - name: Run Biome Check (Lint & Format)
+        run: npx @biomejs/biome check .
+
+      - name: TypeScript Type Check
+        run: npx tsc --noEmit
+
+  test-and-build:
+    needs: quality-check
+    runs-on: ubuntu-latest
+    services:
+      postgres:
+        image: postgres:15-alpine
+        env:
+          POSTGRES_USER: test_user
+          POSTGRES_PASSWORD: test_password
+          POSTGRES_DB: booking_ticket_test
+        ports:
+          - 5432:5432
+        options: >-
+          --health-cmd pg_isready
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
+
+    env:
+      DATABASE_URL: postgresql://test_user:test_password@localhost:5435/booking_ticket_test
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: Install Dependencies
+        run: npm ci
+
+      - name: Prisma Generate & Migrate
+        run: |
+          npx prisma generate
+          npx prisma migrate dev --name init_test
+
+      - name: Run Unit Tests
+        run: npm test
+
+      - name: Build Next.js App
+        run: npm run build

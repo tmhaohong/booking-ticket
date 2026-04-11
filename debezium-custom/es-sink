@@ -1,0 +1,10 @@
+FROM debezium/connect:2.5
+
+USER root
+RUN microdnf -y install unzip && microdnf clean all
+
+USER kafka
+WORKDIR /kafka/connect
+RUN curl -L -o es-sink.zip "https://hub-downloads.confluent.io/api/plugins/confluentinc/kafka-connect-elasticsearch/versions/15.1.1/confluentinc-kafka-connect-elasticsearch-15.1.1.zip" \
+    && unzip es-sink.zip \
+    && rm es-sink.zip

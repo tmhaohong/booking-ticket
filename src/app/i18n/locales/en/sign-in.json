@@ -11,7 +11,7 @@
     "signIn": "Enter"
   },
   "messages": {
-    "success": "Welcome back! Redirecting...",
+    "success": "Welcome back!",
     "sessionExpired": "Your session has expired. Please sign in again."
   },
   "error": {

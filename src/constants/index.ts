@@ -17,6 +17,6 @@ export const BUTTON_TYPE = {
   RESET: 'reset',
 } as const;
 
-export const phoneRegExp = /^((\+84|0)[3|5|7|8|9])([0-9]{8})$/;
+export const phoneRegExp = /^((\+84|0)[35789])([0-9]{8})$/;
 export const nameRegExp = /^[a-zA-Z0-9\sÀ-ỹ]+$/;
 export const emailRegExp = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;

@@ -36,9 +36,11 @@ vi.mock('next-i18next/server', () => ({
   getT: vi.fn(),
 }));
 
-const mockCookieStore = {
-  set: vi.fn(),
-};
+const { mockCookieStore } = vi.hoisted(() => ({
+  mockCookieStore: {
+    set: vi.fn(),
+  },
+}));
 
 vi.mock('next/headers', () => ({
   headers: vi.fn().mockResolvedValue({}),

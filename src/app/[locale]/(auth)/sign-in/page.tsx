@@ -1,8 +1,8 @@
 'use client';
 
-import { useRouter, useSearchParams } from 'next/navigation';
+import { useParams, useRouter, useSearchParams } from 'next/navigation';
 import { useT } from 'next-i18next/client';
-import { Suspense, useEffect, useTransition } from 'react';
+import { Suspense, useEffect, useState } from 'react';
 import type { FieldValues } from 'react-hook-form';
 import toast from 'react-hot-toast';
 import { signInAction } from '@/actions/user';
@@ -14,9 +14,10 @@ import { BUTTON_KIND, BUTTON_TYPE, INPUT_TYPE } from '@/constants';
 import getSignInSchema from '@/schema/sign-in';
 
 const SignInForm = () => {
-  const [isPending, startTransition] = useTransition();
+  const [isPending, setIsPending] = useState(false);
   const router = useRouter();
   const searchParams = useSearchParams();
+  const params = useParams();
   const { t } = useT('sign-in');
 
   const SignInSchema = getSignInSchema(t);
@@ -24,20 +25,24 @@ const SignInForm = () => {
   useEffect(() => {
     if (searchParams.get('expired') === 'true') {
       toast.error(t('messages.sessionExpired'));
-      router.replace('/sign-in');
+      router.replace(`/${params.locale}/sign-in`);
     }
   }, [searchParams, t, router]);
 
   const onSubmitHandle = async (data: FieldValues): Promise<void> => {
-    startTransition(async () => {
+    setIsPending(true);
+    try {
       const result = await signInAction(data);
       if (result.success) {
         toast.success(t('messages.success'));
-        router.push('/home');
+        router.push(`/${params.locale}/home`);
       } else {
         toast.error(result.message);
+        setIsPending(false);
       }
-    });
+    } catch (e) {
+      setIsPending(false);
+    }
   };
 
   return (
@@ -62,7 +67,8 @@ const SignInForm = () => {
           disabled={isPending}
         />
         <div className="text-center">
-          New to the scene? <Link href="/sign-up">Create Account</Link>
+          {t('footer.newToScene')}{' '}
+          <Link href={`/${params.locale}/sign-up`}>{t('footer.createAccount')}</Link>
         </div>
       </Form>
     </div>
@@ -70,8 +76,9 @@ const SignInForm = () => {
 };
 
 const SignInPage = () => {
+  const { t } = useT('sign-in');
   return (
-    <Suspense fallback={<div>Loading...</div>}>
+    <Suspense fallback={<div>{t('footer.loading')}</div>}>
       <SignInForm />
     </Suspense>
   );

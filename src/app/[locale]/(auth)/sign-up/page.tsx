@@ -1,9 +1,9 @@
 'use client';
 
 import omit from 'lodash/omit';
-import { useRouter } from 'next/navigation';
+import { useParams, useRouter } from 'next/navigation';
 import { useT } from 'next-i18next/client';
-import { useTransition } from 'react';
+import { useState } from 'react';
 import type { FieldValues } from 'react-hook-form';
 import toast from 'react-hot-toast';
 import { createUserAction } from '@/actions/user';
@@ -19,25 +19,30 @@ import CustomLabel from './custom-label';
 const COUNTDOWN = 2;
 
 const SignUpPage = () => {
-  const [isPending, startTransition] = useTransition();
+  const [isPending, setIsPending] = useState(false);
   const router = useRouter();
+  const params = useParams();
   const { t } = useT('sign-up');
 
   const UserSchema = getUserSchema(t);
 
   const onSubmitHandle = async (data: FieldValues): Promise<void> => {
-    startTransition(async () => {
+    setIsPending(true);
+    try {
       const result = await createUserAction(omit(data, ['confirmPassword', 'agreement']));
       if (result.success) {
         toast.success(t('messages.success', { count: COUNTDOWN }));
 
         setTimeout(() => {
-          router.push('/sign-in');
+          router.push(`/${params.locale}/sign-in`);
         }, COUNTDOWN * 1000);
       } else {
         toast.error(result.message);
+        setIsPending(false);
       }
-    });
+    } catch (e) {
+      setIsPending(false);
+    }
   };
   return (
     <div className="relative z-1 flex w-full p-5">
@@ -69,7 +74,7 @@ const SignUpPage = () => {
           disabled={isPending}
         />
         <div className="text-center">
-          Already in the rhythm? <Link href="/sign-in">Sign in</Link>
+          {t('footer.prompt')} <Link href={`/${params.locale}/sign-in`}>{t('footer.link')}</Link>
         </div>
       </Form>
     </div>

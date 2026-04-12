@@ -24,5 +24,10 @@
     },
     "invalidCredentials": "Invalid Email/Phone Number or password",
     "accountNotFound": "No account found with this Email/Phone Number"
+  },
+  "footer": {
+    "newToScene": "New to the scene?",
+    "createAccount": "Create Account",
+    "loading": "Loading..."
   }
 }

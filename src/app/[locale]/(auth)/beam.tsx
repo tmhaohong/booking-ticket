@@ -12,7 +12,7 @@ import {
   useRef,
 } from 'react';
 import * as THREE from 'three';
-import { degToRad } from 'three/src/math/MathUtils.js';
+import { MathUtils } from 'three';
 
 type UniformValue = THREE.IUniform<unknown> | unknown;
 
@@ -195,7 +195,7 @@ const Beams: FC<BeamsProps> = ({
   scale = 0.2,
   rotation = 0,
 }) => {
-  const meshRef = useRef<THREE.Mesh<THREE.BufferGeometry, THREE.ShaderMaterial>>(null!);
+  const meshRef = useRef<THREE.Mesh<THREE.BufferGeometry, THREE.ShaderMaterial> | null>(null);
 
   const beamMaterial = useMemo(
     () =>
@@ -256,7 +256,7 @@ const Beams: FC<BeamsProps> = ({
 
   return (
     <CanvasWrapper>
-      <group rotation={[0, 0, degToRad(rotation)]}>
+      <group rotation={[0, 0, MathUtils.degToRad(rotation)]}>
         <PlaneNoise
           ref={meshRef}
           material={beamMaterial}
@@ -336,14 +336,19 @@ const MergedPlanes = forwardRef<
     height: number;
   }
 >(({ material, width, count, height }, ref) => {
-  const mesh = useRef<THREE.Mesh<THREE.BufferGeometry, THREE.ShaderMaterial>>(null!);
-  useImperativeHandle(ref, () => mesh.current);
+  const mesh = useRef<THREE.Mesh<THREE.BufferGeometry, THREE.ShaderMaterial> | null>(null);
+  useImperativeHandle(
+    ref,
+    () => mesh.current as THREE.Mesh<THREE.BufferGeometry, THREE.ShaderMaterial>,
+  );
   const geometry = useMemo(
     () => createStackedPlanesBufferGeometry(count, width, height, 0, 100),
     [count, width, height],
   );
   useFrame((_, delta) => {
-    mesh.current.material.uniforms.time.value += 0.1 * delta;
+    if (mesh.current) {
+      mesh.current.material.uniforms.time.value += 0.1 * delta;
+    }
   });
   return <mesh ref={mesh} geometry={geometry} material={material} />;
 });
@@ -372,7 +377,7 @@ const DirLight: FC<{ position: [number, number, number]; color: string }> = ({
   position,
   color,
 }) => {
-  const dir = useRef<THREE.DirectionalLight>(null!);
+  const dir = useRef<THREE.DirectionalLight | null>(null);
   useEffect(() => {
     if (!dir.current) return;
     const cam = dir.current.shadow.camera as THREE.Camera & {

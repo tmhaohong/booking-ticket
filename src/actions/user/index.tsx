@@ -10,7 +10,7 @@ import getSignInSchema from '@/schema/sign-in';
 import { getServerUserSchema } from '@/schema/user';
 
 export const createUserAction = async (data: FieldValues) => {
-  log.info('Begin creating User.', { name: data.fullName, email: data.email });
+  log.info('Begin creating User.', { hasName: !!data.fullName, hasEmail: !!data.email });
   const { t } = await getT('sign-up');
 
   try {
@@ -29,7 +29,7 @@ export const createUserAction = async (data: FieldValues) => {
     });
 
     if (existingUser) {
-      log.warn('Account already exists!', { email: validatedData.email });
+      log.warn('Account already exists!', { hasEmail: !!validatedData.email });
       return { success: false, message: t('error.email.existed') };
     }
 
@@ -42,10 +42,14 @@ export const createUserAction = async (data: FieldValues) => {
     });
 
     if (validatedData.phoneNumber && result.user?.id) {
-      await prisma.user.update({
-        where: { id: result.user.id },
-        data: { phoneNumber: validatedData.phoneNumber },
-      });
+      try {
+        await prisma.user.update({
+          where: { id: result.user.id },
+          data: { phoneNumber: validatedData.phoneNumber },
+        });
+      } catch (updateErr) {
+        log.warn('Failed to save phone number post-signup', { userId: result.user.id });
+      }
     }
 
     log.info('Create new user successfully.', { userId: result.user?.id });
@@ -55,19 +59,39 @@ export const createUserAction = async (data: FieldValues) => {
       message: t('messages.success'),
       userId: result.user?.id,
     };
-  } catch (error: unknown) {
+  } catch (err: unknown) {
+    const error = err as any;
     const eventId = log.error(error, 'CREATE_USER_ACTION_FAILURE');
+
+    let message = 'An unexpected error occurred. Please try again.';
+
+    if (error?.name === 'ValidationError') {
+      message = error.message;
+    } else if (
+      error?.code === 'USER_ALREADY_EXISTS' ||
+      error?.message?.includes('already exists')
+    ) {
+      message = t('error.email.existed', { defaultValue: 'Email or account already exists.' });
+    } else if (error?.message === 'PHONE_UPDATE_FAILED') {
+      message =
+        'Account was created, but your phone number could not be saved. Please update it inside your profile.';
+    } else if (error?.code === 'P2002') {
+      message = t('error.email.existed', {
+        defaultValue: 'Email or phone number is already registered.',
+      });
+    }
+
     return {
       success: false,
       status: 500,
-      message: t('error.email.existed'),
+      message,
       supportCode: eventId,
     };
   }
 };
 
 export const signInAction = async (data: FieldValues) => {
-  log.info('Begin signing in.', { email: data.email });
+  log.info('Begin signing in.', { hasEmail: !!data.email });
   const { t } = await getT('sign-in');
 
   try {
@@ -78,7 +102,7 @@ export const signInAction = async (data: FieldValues) => {
 
     // If input is a phone number, look up the email first
     let loginEmail = validatedData.email;
-    const isPhone = /^(\+84|0)[3|5|7|8|9][0-9]{8}$/.test(validatedData.email);
+    const isPhone = /^(\+84|0)[35789][0-9]{8}$/.test(validatedData.email);
 
     if (isPhone) {
       const user = await prisma.user.findFirst({
@@ -86,7 +110,7 @@ export const signInAction = async (data: FieldValues) => {
       });
 
       if (!user?.email) {
-        log.warn('Account not found by phone.', { phone: validatedData.email });
+        log.warn('Account not found by phone.', { isPhoneLookup: true });
         return { success: false, message: t('error.accountNotFound') };
       }
 
@@ -123,18 +147,39 @@ export const signInAction = async (data: FieldValues) => {
       cookieStore.set(name.trim(), decodeURIComponent(value), options);
     }
 
-    log.info('User signed in successfully.', { email: loginEmail });
+    log.info('User signed in successfully.', { isPhone });
 
     return {
       success: true,
       message: t('messages.success'),
     };
-  } catch (error: unknown) {
+  } catch (err: unknown) {
+    const error = err as any;
     const eventId = log.error(error, 'SIGN_IN_ACTION_FAILURE');
+
+    if (error?.name === 'ValidationError') {
+      return {
+        success: false,
+        status: 400,
+        message: error.message,
+        supportCode: eventId,
+      };
+    }
+
+    // Auth provider errors (better-auth throws APIError with specific messages or status codes)
+    if (error?.status === 401 || error?.message?.includes('invalid')) {
+      return {
+        success: false,
+        status: 401,
+        message: t('error.invalidCredentials', { defaultValue: 'Invalid credentials.' }),
+        supportCode: eventId,
+      };
+    }
+
     return {
       success: false,
-      status: 401,
-      message: t('error.invalidCredentials'),
+      status: 500,
+      message: 'An unexpected server error occurred.',
       supportCode: eventId,
     };
   }

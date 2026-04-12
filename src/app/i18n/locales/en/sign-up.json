@@ -44,5 +44,9 @@
       "required": "This field is required"
     }
   },
-  "termsAndPrivacy": "I agree to the <tos>Terms of Service</tos> and <privacy>Privacy Policy</privacy>."
+  "termsAndPrivacy": "I agree to the <tos>Terms of Service</tos> and <privacy>Privacy Policy</privacy>.",
+  "footer": {
+    "prompt": "Already in the rhythm?",
+    "link": "Sign in"
+  }
 }

@@ -1,14 +1,20 @@
 'use client';
 
-import { useRouter } from 'next/navigation';
+import { useParams, useRouter } from 'next/navigation';
 import { authClient } from '@/helpers/auth-client';
 
 const SignOutButton = () => {
   const router = useRouter();
 
+  const params = useParams();
+
   const handleSignOut = async () => {
-    await authClient.signOut();
-    router.push('/sign-in');
+    try {
+      await authClient.signOut();
+      router.push(`/${params.locale}/sign-in`);
+    } catch (e) {
+      console.error('Failed to sign out', e);
+    }
   };
 
   return (

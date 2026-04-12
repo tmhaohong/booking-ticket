@@ -8,9 +8,9 @@ datasource db {
 
 model User {
   id            String    @id @default(uuid())
-  email         String?   @unique
+  email         String    @unique
   emailVerified Boolean   @default(false)
-  name          String?
+  name          String
   image         String?
   phoneNumber   String?   @unique
   role          String    @default("USER")
@@ -55,8 +55,8 @@ model Verification {
   identifier String
   value      String
   expiresAt  DateTime
-  createdAt  DateTime? @default(now())
-  updatedAt  DateTime? @updatedAt
+  createdAt  DateTime  @default(now())
+  updatedAt  DateTime  @updatedAt
 
   @@map("verification")
 }

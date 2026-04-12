@@ -7,14 +7,6 @@
 
 */
 -- AlterTable
-ALTER TABLE "User" DROP COLUMN "fullName",
-DROP COLUMN "passwordHash",
-ADD COLUMN     "emailVerified" BOOLEAN NOT NULL DEFAULT false,
-ADD COLUMN     "image" TEXT,
-ADD COLUMN     "name" TEXT,
-ADD COLUMN     "role" TEXT NOT NULL DEFAULT 'USER',
-ADD COLUMN     "updatedAt" TIMESTAMP(3) NOT NULL;
-
 -- CreateTable
 CREATE TABLE "Session" (
     "id" TEXT NOT NULL,
@@ -59,6 +51,30 @@ CREATE TABLE "verification" (
 
     CONSTRAINT "verification_pkey" PRIMARY KEY ("id")
 );
+
+-- Add Columns with sensible defaults to avoid failure
+ALTER TABLE "User" 
+  ADD COLUMN "emailVerified" BOOLEAN NOT NULL DEFAULT false,
+  ADD COLUMN "image" TEXT,
+  ADD COLUMN "name" TEXT,
+  ADD COLUMN "role" TEXT NOT NULL DEFAULT 'USER',
+  ADD COLUMN "updatedAt" TIMESTAMP(3) DEFAULT CURRENT_TIMESTAMP;
+
+-- BACKFILL DATA
+UPDATE "User" SET "name" = "fullName" WHERE "name" IS NULL;
+
+-- Backfill Account for existing credentials
+INSERT INTO "Account" ("id", "accountId", "providerId", "userId", "password", "createdAt", "updatedAt")
+SELECT "id", "id", 'credential', "id", "passwordHash", CURRENT_TIMESTAMP, CURRENT_TIMESTAMP
+FROM "User" 
+WHERE "passwordHash" IS NOT NULL;
+
+-- Now safe to drop old columns and enforce NOT NULL
+ALTER TABLE "User"
+  ALTER COLUMN "updatedAt" SET NOT NULL,
+  ALTER COLUMN "updatedAt" DROP DEFAULT,
+  DROP COLUMN "fullName",
+  DROP COLUMN "passwordHash";
 
 -- CreateIndex
 CREATE UNIQUE INDEX "Session_token_key" ON "Session"("token");

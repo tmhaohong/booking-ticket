@@ -167,7 +167,7 @@ export const signInAction = async (data: FieldValues) => {
     }
 
     // Auth provider errors (better-auth throws APIError with specific messages or status codes)
-    if (error?.status === 401 || error?.message?.includes('invalid')) {
+    if (error?.status === 401 || error?.message?.toLowerCase().includes('invalid')) {
       return {
         success: false,
         status: 401,

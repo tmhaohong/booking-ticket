@@ -118,7 +118,7 @@ describe('User Server Actions', () => {
       });
 
       expect(auth.api.signUpEmail).not.toHaveBeenCalled();
-      expect(log.warn).toHaveBeenCalledWith('Account already exists!', { email: validSignupPayload.email });
+      expect(log.warn).toHaveBeenCalledWith('Account already exists!', { hasEmail: true });
     });
 
     it('should handle schema validation errors gracefully', async () => {
@@ -139,7 +139,7 @@ describe('User Server Actions', () => {
     };
 
     const validPhoneSignIn = {
-      email: '0912345678', // the sign in schema uses "email" for both types
+      email: '0912345678',
       password: 'Password123',
     };
 
@@ -205,7 +205,7 @@ describe('User Server Actions', () => {
         message: 'error.accountNotFound',
       });
       expect(auth.api.signInEmail).not.toHaveBeenCalled();
-      expect(log.warn).toHaveBeenCalledWith('Account not found by phone.', { phone: validPhoneSignIn.email });
+      expect(log.warn).toHaveBeenCalledWith('Account not found by phone.', { isPhoneLookup: true });
     });
 
     it('should handle signIn integration exceptions gracefully', async () => {

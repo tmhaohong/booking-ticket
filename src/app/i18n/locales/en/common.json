@@ -1,7 +1,7 @@
 {
   "error": {
     "email": {
-      "existed": "Email is existed!"
+      "existed": "Account is existed!"
     },
     "system": "System error!",
     "supportCode": "Support code"

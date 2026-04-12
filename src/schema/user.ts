@@ -13,7 +13,7 @@ const getUserSchema = (t: Translator) => {
     phoneNumber: string()
       .nullable()
       .notRequired()
-      .test('is-phone-number', t('error.phoneNumber'), (value) => {
+      .test('is-phone-number', t('error.phoneNumber.test'), (value) => {
         return !value || phoneRegExp.test(value);
       }),
     password: string()

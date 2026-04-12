@@ -1,0 +1,28 @@
+{
+  "labels": {
+    "email": "Email/Phone Number",
+    "password": "Password"
+  },
+  "titles": {
+    "title": "Welcome Back",
+    "description": "Enter your details to access your account"
+  },
+  "buttons": {
+    "signIn": "Enter"
+  },
+  "messages": {
+    "success": "Welcome back! Redirecting...",
+    "sessionExpired": "Your session has expired. Please sign in again."
+  },
+  "error": {
+    "email": {
+      "required": "Email or Phone Number is required",
+      "email": "Please enter a valid email or phone number"
+    },
+    "password": {
+      "required": "Password is required"
+    },
+    "invalidCredentials": "Invalid Email/Phone Number or password",
+    "accountNotFound": "No account found with this Email/Phone Number"
+  }
+}

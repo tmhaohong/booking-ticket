@@ -27,7 +27,7 @@ describe('User Schemas', () => {
         email: 'hao@example.com',
         password: 'Password123',
         confirmPassword: 'Password123',
-        agreement: false, // Invalid
+        agreement: false,
       };
 
       await expect(schema.validate(invalidPayload)).rejects.toThrow('error.agreement.required');

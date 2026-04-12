@@ -47,7 +47,7 @@ export const createUserAction = async (data: FieldValues) => {
           where: { id: result.user.id },
           data: { phoneNumber: validatedData.phoneNumber },
         });
-      } catch (updateErr) {
+      } catch (_updateErr) {
         log.warn('Failed to save phone number post-signup', { userId: result.user.id });
       }
     }

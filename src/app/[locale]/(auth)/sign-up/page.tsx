@@ -40,7 +40,7 @@ const SignUpPage = () => {
         toast.error(result.message);
         setIsPending(false);
       }
-    } catch (e) {
+    } catch (_e) {
       setIsPending(false);
     }
   };

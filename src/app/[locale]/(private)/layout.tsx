@@ -16,7 +16,7 @@ const PrivateLayout = async ({
 
   try {
     session = await getSession();
-  } catch (error) {
+  } catch (_error) {
     // Suppress crash, surface as expired session
   }
 

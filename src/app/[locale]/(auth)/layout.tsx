@@ -1,5 +1,5 @@
-import { getT } from 'next-i18next/server';
 import { redirect } from 'next/navigation';
+import { getT } from 'next-i18next/server';
 import type { ReactNode } from 'react';
 import { getSession } from '@/helpers/session';
 import Beams from './beam';

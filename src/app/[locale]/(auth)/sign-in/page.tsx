@@ -27,7 +27,7 @@ const SignInForm = () => {
       toast.error(t('messages.sessionExpired'));
       router.replace(`/${params.locale}/sign-in`);
     }
-  }, [searchParams, t, router]);
+  }, [searchParams, t, router, params.locale]);
 
   const onSubmitHandle = async (data: FieldValues): Promise<void> => {
     setIsPending(true);
@@ -40,7 +40,7 @@ const SignInForm = () => {
         toast.error(result.message);
         setIsPending(false);
       }
-    } catch (e) {
+    } catch (_e) {
       setIsPending(false);
     }
   };

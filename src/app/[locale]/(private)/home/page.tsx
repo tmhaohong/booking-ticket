@@ -1,5 +1,5 @@
-import { getSession } from '@/helpers/session';
 import SignOutButton from '@/components/sign-out-button';
+import { getSession } from '@/helpers/session';
 
 const HomePage = async () => {
   const session = await getSession();

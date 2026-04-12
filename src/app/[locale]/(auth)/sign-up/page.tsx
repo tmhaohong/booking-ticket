@@ -69,8 +69,7 @@ const SignUpPage = () => {
           disabled={isPending}
         />
         <div className="text-center">
-          Already in the rhythm?{' '}
-          <Link href="/sign-in">Sign in</Link>
+          Already in the rhythm? <Link href="/sign-in">Sign in</Link>
         </div>
       </Form>
     </div>

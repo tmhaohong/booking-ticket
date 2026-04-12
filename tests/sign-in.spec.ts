@@ -23,7 +23,9 @@ test.describe('Sign In View', () => {
     expect(errorMessages).toBe(2);
   });
 
-  test('should show validation error for invalid email or phone number format', async ({ page }) => {
+  test('should show validation error for invalid email or phone number format', async ({
+    page,
+  }) => {
     await page.locator('input[name="email"]').fill('invalid-format');
     await page.locator('input[name="password"]').fill('ValidPass123');
 
@@ -35,7 +37,9 @@ test.describe('Sign In View', () => {
     await expect(errors).toHaveCount(1);
   });
 
-  test('should clear validation error if valid email or phone number is provided', async ({ page }) => {
+  test('should clear validation error if valid email or phone number is provided', async ({
+    page,
+  }) => {
     // Fill invalid data
     await page.locator('input[name="email"]').fill('invalid-format');
     await page.locator('input[name="password"]').fill('ValidPass123');

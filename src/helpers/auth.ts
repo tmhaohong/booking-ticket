@@ -34,4 +34,4 @@ const auth = betterAuth({
   },
 });
 
-export  default auth;
+export default auth;

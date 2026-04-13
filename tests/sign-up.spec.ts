@@ -23,7 +23,7 @@ test.describe('Sign Up View', () => {
 
     await expect(page.locator('span.text-red-600').first()).toBeVisible({ timeout: 5000 });
 
-    const errorMessages = await page.locator('span.text-red-600').count();
+    const errorMessages = await page.locator('span.text-red-600.text-xs').count();
     expect(errorMessages).toBe(5);
   });
 

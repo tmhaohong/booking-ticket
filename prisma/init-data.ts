@@ -10,6 +10,13 @@ const pool = new Pool({ connectionString });
 const adapter = new PrismaPg(pool);
 const prisma = new PrismaClient({ adapter });
 
+/**
+ * Populate the database with initial seed data for users, an event, and seats.
+ *
+ * Deletes existing orderItem, order, seat, event, and user records, creates a single user and an event,
+ * generates and inserts seats for rows A, B, and C with configured counts and prices, updates the
+ * seat with code `VIP-A1` to `PENDING`, and logs insertion progress.
+ */
 async function main() {
   await prisma.orderItem.deleteMany();
   await prisma.order.deleteMany();

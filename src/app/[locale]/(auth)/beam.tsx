@@ -30,6 +30,15 @@ type ShaderWithDefines = THREE.ShaderLibShader & {
   defines?: Record<string, string | number | boolean>;
 };
 
+/**
+ * Creates a Three.js ShaderMaterial derived from a base material's physical shader with configurable shader injection, uniforms, and material overrides.
+ *
+ * Builds a ShaderMaterial by cloning the physical shader's defines and uniforms, applying default values from an instantiated `BaseMaterial`, merging additional `cfg.uniforms`, and prepending/injecting provided header and replacement code into the vertex and fragment shader sources.
+ *
+ * @param BaseMaterial - A material constructor whose instance provides default parameter values (color, roughness, metalness, envMap, envMapIntensity) to populate the shader uniforms.
+ * @param cfg - Configuration that supplies shader header blocks, optional per-shader headers, additional uniform definitions, and include-token replacements for vertex and fragment shader source.
+ * @returns A configured `THREE.ShaderMaterial` with merged `defines`, assembled `uniforms`, injected `vertexShader` and `fragmentShader`, lighting enabled, and fog enabled when `cfg.material?.fog` is truthy.
+ */
 function extendMaterial<T extends THREE.Material = THREE.Material>(
   BaseMaterial: new (params?: THREE.MaterialParameters) => T,
   cfg: ExtendMaterialConfig,
@@ -273,6 +282,18 @@ const Beams: FC<BeamsProps> = ({
   );
 };
 
+/**
+ * Create a single indexed BufferGeometry of `n` vertical planes laid out along the X axis, each divided into `heightSegments` horizontal segments.
+ *
+ * Each plane is `width` wide and `height` tall, with `spacing` between adjacent planes. The geometry includes interleaved position and UV attributes, an index buffer forming two triangles per segment, and computed vertex normals. UVs receive a per-plane random offset to vary sampling across planes.
+ *
+ * @param n - Number of stacked planes
+ * @param width - Width of each plane
+ * @param height - Height of each plane
+ * @param spacing - Distance between adjacent planes along the X axis
+ * @param heightSegments - Number of subdivisions along the plane height (segments per plane)
+ * @returns A THREE.BufferGeometry containing positions, UVs, indices, and vertex normals for the stacked planes
+ */
 function createStackedPlanesBufferGeometry(
   n: number,
   width: number,

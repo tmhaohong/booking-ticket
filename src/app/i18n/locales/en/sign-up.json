@@ -1,6 +1,20 @@
 {
+  "labels": {
+    "fullName": "Full Name",
+    "email": "Email",
+    "phoneNumber": "Phone Number",
+    "password": "Password",
+    "confirmPassword": "Confirm Password"
+  },
+  "titles": {
+    "title": "Join the Pulse",
+    "description": "Sign up to unlock exclusive features and personalized experiences"
+  },
+  "buttons": {
+    "signUp": "Sign Up"
+  },
   "messages": {
-    "success": "Sign up successfully. You will be redirected to the sign in page in {count} seconds"
+    "success": "Sign up successfully. You will be redirected to the sign in page in {{count}} seconds"
   },
   "error": {
     "fullName": {
@@ -30,5 +44,9 @@
       "required": "This field is required"
     }
   },
-  "termsAndPrivacy": "I agree to the <tos>Terms of Service</tos> and <privacy>Privacy Policy</privacy>."
+  "termsAndPrivacy": "I agree to the <tos>Terms of Service</tos> and <privacy>Privacy Policy</privacy>.",
+  "footer": {
+    "prompt": "Already in the rhythm?",
+    "link": "Sign in"
+  }
 }

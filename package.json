@@ -9,8 +9,9 @@
     "test": "vitest",
     "test:ui": "vitest --ui",
     "test:e2e": "playwright test",
+    "test:e2e:ui": "playwright test --headed",
     "lint": "biome check .",
-    "lint:fix": "biome check --write .",
+    "lint:fix": "biome check --write --unsafe .",
     "format": "biome format --write .",
     "analyze:turbo": "next experimental-analyze"
   },
@@ -18,8 +19,11 @@
     "@hookform/resolvers": "^5.2.2",
     "@prisma/adapter-pg": "^7.7.0",
     "@prisma/client": "^7.7.0",
+    "@react-three/drei": "^10.7.7",
+    "@react-three/fiber": "^9.5.0",
     "@sentry/nextjs": "^10.48.0",
     "bcrypt": "^6.0.0",
+    "better-auth": "^1.6.2",
     "clsx": "^2.1.1",
     "crypto": "^1.0.1",
     "dotenv": "^17.4.1",
@@ -38,6 +42,7 @@
     "react-hot-toast": "^2.6.0",
     "react-i18next": "^17.0.2",
     "tailwind-merge": "^3.5.0",
+    "three": "^0.183.2",
     "yup": "^1.7.1",
     "zustand": "^5.0.12"
   },
@@ -60,9 +65,9 @@
     "babel-plugin-react-compiler": "1.0.0",
     "jest": "^30.3.0",
     "jest-environment-jsdom": "^30.3.0",
+    "prisma": "^7.7.0",
     "tailwindcss": "^4.2.2",
     "typescript": "^6.0.2",
-    "prisma": "^7.7.0",
     "vitest": "^4.1.4"
   }
 }

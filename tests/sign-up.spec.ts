@@ -23,8 +23,8 @@ test.describe('Sign Up View', () => {
 
     await expect(page.locator('span.text-red-600').first()).toBeVisible({ timeout: 5000 });
 
-    const errorMessages = await page.locator('span.text-red-600').count();
-    expect(errorMessages).toBeGreaterThan(3);
+    const errorMessages = await page.locator('span.text-red-600.text-xs').count();
+    expect(errorMessages).toBe(5);
   });
 
   test('should show password matching validation error', async ({ page }) => {

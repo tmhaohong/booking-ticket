@@ -9,7 +9,6 @@ describe('classname-helper', () => {
 
   it('should resolve tailwind class conflicts correctly utilizing tailwind-merge', () => {
     const result = cn('p-4 p-2', 'text-red-500 text-blue-500');
-    // twMerge keeps the last specified conflict
     expect(result).toBe('p-2 text-blue-500');
   });
 

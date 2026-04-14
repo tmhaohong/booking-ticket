@@ -26,7 +26,7 @@ test.describe('UI Components Integration', () => {
     await expect(uncheckedIcon).toBeVisible();
     await expect(checkedIcon).toBeHidden();
 
-    await checkboxLabel.click();
+    await uncheckedIcon.click();
 
     await expect(checkedIcon).toBeVisible();
     await expect(uncheckedIcon).toBeHidden();
